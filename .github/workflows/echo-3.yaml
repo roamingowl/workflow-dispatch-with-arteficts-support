@@ -42,11 +42,17 @@ jobs:
           echo 'Parent workflow run-id: ${{ fromJSON(inputs.meta).workflow_run_id }}' >> $GITHUB_STEP_SUMMARY
           echo '' >> $GITHUB_STEP_SUMMARY
 
-      - name: download artifact
-        uses: actions/download-artifact@v4
+#      - name: download artifact
+#        uses: actions/download-artifact@v4
+#        with:
+#          run-id: ${{ fromJSON(inputs.meta).workflow_run_id }}
+#          path: data
+
+      - uses: actions/cache/restore@v4
+        id: restore-cache
         with:
-          run-id: ${{ fromJSON(inputs.meta).workflow_run_id }}
-          path: data
+          path: data/files
+          key: ${{ fromJSON(inputs.meta).workflow_run_id }}_file1
 
       - name: print input file
         shell: bash

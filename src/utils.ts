@@ -45,7 +45,7 @@ function parse(inputsJsonOrYaml: string) {
     }
     //add info about self, for dispatched workflow
     parsedYaml.meta.workflow_name = github.context.workflow
-    parsedYaml.meta.run_id = github.context.runId
+    parsedYaml.meta.workflow_run_id = github.context.runId
     parsedYaml.meta.workflow_url = `${github.context.serverUrl}/${github.context.repo.owner}/${github.context.repo.repo}/actions/runs/${github.context.runId}/attempts/${parseInt(process.env.GITHUB_RUN_ATTEMPT as string)}`
     parsedYaml.meta.workflow_repo = `${github.context.repo.owner}/${github.context.repo.repo}`
 

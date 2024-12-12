@@ -39,7 +39,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: file1
-          run-id: '${{ fromJSON(inputs.meta).run_id }}'
+          run-id: '${{ fromJSON(inputs.meta).workflow_run_id }}'
           path: data
 
       - name: print input file

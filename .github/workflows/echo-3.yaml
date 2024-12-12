@@ -39,12 +39,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: file1
-          run-id: '${{ fromJSON(inputs.meta).workflow_run_id }}'
+          run-id: ${{ fromJSON(inputs.meta).workflow_run_id }}
           path: data
 
       - name: print input file
         shell: bash
         run: |
+          echo 'Parent workflow run-id: ${{ fromJSON(inputs.meta).workflow_run_id }}' >> $GITHUB_STEP_SUMMARY
           echo 'Received file:' >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           cat data/file1 >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,70 @@
+name: Build & Test
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+    - name: Build with ncc
+      run: |
+        npm install -g yarn
+        yarn install
+        yarn run build
+    - name: Archive dist
+      uses: actions/upload-artifact@v3
+      with:
+        name: build
+        path: dist
+
+  yaml-test:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    name: "yaml-test"
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Download dist
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+          path: dist
+
+      - name: Create artifact file
+        shell: bash
+        run: |
+          mkdir -p data/files
+          echo "This is artifact from build-test.yaml" >> data/files/file1.txt
+
+      - name: crete artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: data/files/file1.txt
+          retention-days: 1
+          name: file1
+
+      - name: Invoke echo 3 workflow using this action
+        uses: ./
+        with:
+          workflow: echo-3.yaml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          wait-for-completion: true
+          display-workflow-run-url: true
+          inputs: | 
+            message: "Mango jam"
+            meta:
+              first_name: John
+              last_name: Doe
+

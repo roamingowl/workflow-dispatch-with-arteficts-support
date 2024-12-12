@@ -1,0 +1,52 @@
+name: Message Echo 3
+
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: "Message to echo"
+        required: false
+        default: "this is echo 3"
+      meta:
+        description: 'Meta information to pass to the workflow. JSON string'
+        required: false
+        default: ''
+
+jobs:
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo message
+        run: echo '${{ github.event.inputs.message }}'
+
+      - name: Parent info
+        if: ${{ inputs.meta != '' && fromJSON(inputs.meta).workflow_name != '' }}
+        shell: bash
+        run: |
+          echo 'Dispatched from [${{ fromJSON(inputs.meta).workflow_name }}](${{ fromJSON(inputs.meta).workflow_url }}) in repo `${{ fromJSON(inputs.meta).workflow_repo }}`' >> $GITHUB_STEP_SUMMARY
+
+      - name: Parse meta to outputs
+        if: ${{ inputs.meta != '' && fromJSON(inputs.meta) != '' }}
+        id: meta
+        shell: bash
+        run: |
+          echo 'Message: ${{inputs.message}}' >> $GITHUB_STEP_SUMMARY
+          echo "Extra inputs from meta:" >> $GITHUB_STEP_SUMMARY
+          echo '- first name: `${{ fromJSON(inputs.meta).first_name }}`'  >> $GITHUB_STEP_SUMMARY
+          echo '- last name: `${{ fromJSON(inputs.meta).last_name }}`' >> $GITHUB_STEP_SUMMARY
+
+      - name: download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: file1
+          run-id: '${{ fromJSON(inputs.meta).run_id }}'
+          path: data
+
+      - name: print input file
+        shell: bash
+        run: |
+          echo 'Received file:' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat data/file1 >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          

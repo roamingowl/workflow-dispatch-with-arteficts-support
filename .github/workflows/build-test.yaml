@@ -48,18 +48,19 @@ jobs:
           mkdir -p data/files
           echo "This is artifact from build-test.yaml" >> data/files/file1.txt
 
-#      - name: crete artifact
-#        uses: actions/upload-artifact@v4
-#        with:
-#          path: data/files/file1.txt
-#          retention-days: 1
-#          name: file1
-
-      - uses: actions/cache/save@v4
-        id: cache_workaround
+      - name: crete artifact
+        uses: actions/upload-artifact@v4
+        id: file1
         with:
           path: data/files/file1.txt
-          key: ${{ github.run_id }}_file1
+          retention-days: 1
+          name: file1
+
+#      - uses: actions/cache/save@v4
+#        id: cache_workaround
+#        with:
+#          path: data/files/file1.txt
+#          key: ${{ github.run_id }}_file1
 
       - name: Invoke echo 3 workflow using this action
         uses: ./
@@ -71,6 +72,7 @@ jobs:
           inputs: | 
             message: "Mango jam"
             meta:
+              file1_url: ${{ steps.file1.outputs.artifact-url }}
               first_name: John
               last_name: Doe
 

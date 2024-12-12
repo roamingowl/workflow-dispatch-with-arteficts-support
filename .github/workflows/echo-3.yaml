@@ -45,6 +45,7 @@ jobs:
       - name: manual download using curl
         shell: bash
         run: |
+          curl -H "Accept: application/vnd.github+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -v "${{ fromJSON(inputs.meta).file1_url }}"
           curl -H "Accept: application/vnd.github+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -L --output file1.txt "${{ fromJSON(inputs.meta).file1_url }}"
 
 #      - name: download artifact

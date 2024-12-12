@@ -35,10 +35,16 @@ jobs:
           echo '- first name: `${{ fromJSON(inputs.meta).first_name }}`'  >> $GITHUB_STEP_SUMMARY
           echo '- last name: `${{ fromJSON(inputs.meta).last_name }}`' >> $GITHUB_STEP_SUMMARY
 
+      - name: run id
+        shell: bash
+        run: |
+          echo '' >> $GITHUB_STEP_SUMMARY
+          echo 'Parent workflow run-id: ${{ fromJSON(inputs.meta).workflow_run_id }}' >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
+
       - name: download artifact
         uses: actions/download-artifact@v4
         with:
-          name: file1
           run-id: ${{ fromJSON(inputs.meta).workflow_run_id }}
           path: data
 

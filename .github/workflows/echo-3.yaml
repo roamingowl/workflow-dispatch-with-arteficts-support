@@ -64,8 +64,9 @@ jobs:
       - name: print input file
         shell: bash
         run: |
+          ls -al data
           echo 'Received file:' >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          cat file1.txt >> $GITHUB_STEP_SUMMARY
+          cat data/file1.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           

@@ -59,6 +59,8 @@ outputs:
     description: 'Conclusion of the triggered workflow'
   workflow-id:
     description: 'ID of the triggered workflow'
+  workflow-run-id:
+    description: 'Run ID of the triggered workflow'
   workflow-url:
     description: 'URL of the triggered workflow'
   workflow-logs:

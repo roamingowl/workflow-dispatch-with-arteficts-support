@@ -60,4 +60,17 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
           cat data/file1/file1.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: create artefact
+        shell: bash
+        run: |
+          echo "This is artifact from echo-3.yaml" >> file2.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          retention-days: 1
+          name: file2
+          path: |
+            file2.txt
           

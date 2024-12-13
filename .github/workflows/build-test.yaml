@@ -6,7 +6,6 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
   actions: write
 
 jobs:
@@ -64,6 +63,7 @@ jobs:
 
       - name: Invoke echo 3 workflow using this action
         uses: ./
+        id: dispatch
         with:
           workflow: echo-3.yaml
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -75,4 +75,20 @@ jobs:
               file1_url: ${{ steps.file1.outputs.artifact-url }}
               first_name: John
               last_name: Doe
+
+      - name: Get artefact from dispatched workflow
+        uses: actions/download-artifact@v4
+        with:
+          run-id: '${{ dispatch.outputs.workflow-run-id }}'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: file2
+
+      - name: print input file
+        shell: bash
+        run: |
+          ls -al file1
+          echo 'Received file:' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat file2/file2.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
 

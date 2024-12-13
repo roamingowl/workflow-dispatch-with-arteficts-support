@@ -29371,7 +29371,7 @@ function run() {
             const { result, start } = yield waitForCompletionOrTimeout(workflowHandler, args.checkStatusInterval, args.waitForCompletionTimeout);
             yield handleLogs(args, workflowHandler);
             core.setOutput('workflow-id', result === null || result === void 0 ? void 0 : result.id);
-            core.setOutput('workflow-run-id', workflowHandler.getWorkflowRunId());
+            core.setOutput('workflow-run-id', yield workflowHandler.getWorkflowRunId());
             core.setOutput('workflow-url', result === null || result === void 0 ? void 0 : result.url);
             computeConclusion(start, args.waitForCompletionTimeout, result);
         }

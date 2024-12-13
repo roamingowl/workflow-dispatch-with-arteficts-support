@@ -89,6 +89,6 @@ jobs:
           ls -al 
           echo 'Received file:' >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          cat file2/file2.txt >> $GITHUB_STEP_SUMMARY
+          cat file2.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 

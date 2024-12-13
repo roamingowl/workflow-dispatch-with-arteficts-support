@@ -12,6 +12,10 @@ on:
         required: false
         default: ''
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   echo:
     runs-on: ubuntu-latest
@@ -51,7 +55,8 @@ jobs:
       - name: download artifact
         uses: actions/download-artifact@v4
         with:
-          github-token: ${{ secrets.ELEVATED_GH_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+#          github-token: ${{ secrets.ELEVATED_GH_TOKEN }}
           run-id: ${{ fromJSON(inputs.meta).workflow_run_id }}
           path: data
 

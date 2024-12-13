@@ -79,7 +79,7 @@ jobs:
       - name: Get artefact from dispatched workflow
         uses: actions/download-artifact@v4
         with:
-          run-id: '${{ dispatch.outputs.workflow-run-id }}'
+          run-id: '${{ steps.dispatch.outputs.workflow-run-id }}'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           name: file2
 

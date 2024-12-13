@@ -86,7 +86,7 @@ jobs:
       - name: print input file
         shell: bash
         run: |
-          ls -al file1
+          ls -al file2
           echo 'Received file:' >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           cat file2/file2.txt >> $GITHUB_STEP_SUMMARY

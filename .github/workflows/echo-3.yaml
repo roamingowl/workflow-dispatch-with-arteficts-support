@@ -51,6 +51,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ fromJSON(inputs.meta).workflow_run_id }}
           path: data
+          name: file1
 
       - name: print input file
         shell: bash
